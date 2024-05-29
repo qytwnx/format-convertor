@@ -1,0 +1,1 @@
+export { MainWindowOptions } from './options';

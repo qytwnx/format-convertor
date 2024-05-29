@@ -1,0 +1,23 @@
+.header-container {
+  @apply w-full h-14 flex items-center justify-between px-4 bg-gray-300 dark:bg-gray-700;
+  -webkit-app-region: drag;
+  .header-container-logo {
+    @apply flex items-center gap-3;
+    .header-container-logo-image {
+      @apply w-11 h-11;
+    }
+    .header-container-logo-title {
+      @apply text-xl font-bold;
+    }
+  }
+  .header-container-operate {
+    @apply flex items-center gap-3;
+    .header-container-operate-item {
+      @apply p-1 h-8 w-8 rounded-full cursor-pointer flex items-center justify-center flex-shrink-0;
+      -webkit-app-region: no-drag;
+      &:hover {
+        @apply bg-gray-200 dark:bg-gray-500;
+      }
+    }
+  }
+}
