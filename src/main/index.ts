@@ -5,7 +5,8 @@ import { MainWindowOptions } from './constants';
 import {
   registerMainWindowControl,
   registerOpenExternal,
-  registerTheme
+  registerTheme,
+  registerFileOperate
 } from './ipc';
 
 // This method will be called when Electron has finished
@@ -26,6 +27,7 @@ app.whenReady().then(() => {
   registerMainWindowControl(mainWindow);
   registerOpenExternal();
   registerTheme();
+  registerFileOperate(mainWindow);
 
   app.on('activate', function () {
     // On macOS it's common to re-create a window in the app when the

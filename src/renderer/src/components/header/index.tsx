@@ -21,8 +21,8 @@ const Header = () => {
   ]);
 
   const handleLoadIsMaximized = async () => {
-    const isMaximized = await window.api.mainWindowCustomMaximizeStatus();
-    setIsMaximized(isMaximized);
+    const status = await window.api.mainWindowCustomMaximizeStatus();
+    setIsMaximized(status);
   };
 
   const handleThemeDarkToggle = async (mode: 'light' | 'dark') => {

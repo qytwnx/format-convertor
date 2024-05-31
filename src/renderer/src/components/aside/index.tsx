@@ -7,7 +7,7 @@ const Aside = () => {
   const navigate = useNavigate();
   const location = useLocation();
 
-  const menuList: Array<IMenuItem> = [
+  const menuList: Array<MenuItemModel> = [
     {
       id: '1',
       key: '/images',

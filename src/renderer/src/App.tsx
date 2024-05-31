@@ -2,6 +2,7 @@ import { useAppStore } from '@renderer/store';
 import { Suspense, useEffect } from 'react';
 import { Outlet } from 'react-router-dom';
 import PageLoading from '@renderer/components/page-loading';
+import { ConfigProvider, theme } from 'antd';
 
 const App = () => {
   const [isDark, setIsDark] = useAppStore((state) => [
@@ -45,9 +46,15 @@ const App = () => {
   return (
     <>
       <div className="w-screen h-screen">
-        <Suspense fallback={<PageLoading />}>
-          <Outlet />
-        </Suspense>
+        <ConfigProvider
+          theme={{
+            algorithm: isDark ? theme.darkAlgorithm : theme.defaultAlgorithm
+          }}
+        >
+          <Suspense fallback={<PageLoading />}>
+            <Outlet />
+          </Suspense>
+        </ConfigProvider>
       </div>
     </>
   );

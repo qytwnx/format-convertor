@@ -12,6 +12,8 @@ declare global {
       openExternal: (url: string) => void;
       themeDarkToggle: (mode: 'light' | 'dark') => Promise<boolean>;
       themeDarkStatus: () => Promise<boolean>;
+      chooseDirectory: () => Promise<Array<string> | undefined>;
+      chooseFiles: () => Promise<Array<string> | undefined>;
     };
   }
 }

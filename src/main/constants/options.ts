@@ -1,6 +1,6 @@
 import { BrowserWindowConstructorOptions } from 'electron';
 import icon from '../../../resources/icon.png?asset';
-import { join } from 'path';
+import { join } from 'node:path';
 
 export const MainWindowOptions: BrowserWindowConstructorOptions & {
   routerPath?: string;

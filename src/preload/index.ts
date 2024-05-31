@@ -26,6 +26,12 @@ const api = {
   },
   themeDarkStatus: (): Promise<boolean> => {
     return ipcRenderer.invoke('theme:dark:status');
+  },
+  chooseDirectory: (): Promise<Array<string> | undefined> => {
+    return ipcRenderer.invoke('choose:directory');
+  },
+  chooseFiles: (): Promise<Array<string> | undefined> => {
+    return ipcRenderer.invoke('choose:files');
   }
 };
 
