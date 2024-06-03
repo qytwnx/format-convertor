@@ -14,6 +14,10 @@ declare global {
       themeDarkStatus: () => Promise<boolean>;
       chooseDirectory: () => Promise<Array<string> | undefined>;
       chooseFiles: () => Promise<Array<string> | undefined>;
+      transformImagesRun: (options: ImageTransformOptionModel) => void;
+      transformImagesProgress: (
+        callback: (params: ProgressModel<ImagesModel>) => void
+      ) => void;
     };
   }
 }

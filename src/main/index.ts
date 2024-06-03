@@ -1,12 +1,13 @@
 import { app, BrowserWindow } from 'electron';
-import { electronApp, optimizer } from '@electron-toolkit/utils';
+import { electronApp, is, optimizer } from '@electron-toolkit/utils';
 import { createWindow } from './config';
 import { MainWindowOptions } from './constants';
 import {
   registerMainWindowControl,
   registerOpenExternal,
   registerTheme,
-  registerFileOperate
+  registerFileOperate,
+  registerImagesTransform
 } from './ipc';
 
 // This method will be called when Electron has finished
@@ -28,6 +29,11 @@ app.whenReady().then(() => {
   registerOpenExternal();
   registerTheme();
   registerFileOperate(mainWindow);
+  registerImagesTransform(mainWindow);
+
+  if (is.dev) {
+    mainWindow.webContents.openDevTools();
+  }
 
   app.on('activate', function () {
     // On macOS it's common to re-create a window in the app when the

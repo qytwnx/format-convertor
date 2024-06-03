@@ -28,3 +28,26 @@ export const useAppStore = create<AppStateProps>()(
     }
   )
 );
+
+interface TransformImagesStateProps {
+  imagesOptions: ImageTransformOptionModel;
+  setImagesOptions: (
+    data: ImageTransformOptionModel
+  ) => ImageTransformOptionModel;
+}
+
+export const useTransformImagesStore = create<TransformImagesStateProps>()(
+  persist(
+    (set) => ({
+      imagesOptions: { targetFormat: 'png', targetPath: '', sourceImages: [] },
+      setImagesOptions: (data) => {
+        set({ imagesOptions: data });
+        return data;
+      }
+    }),
+    {
+      name: 'transform-images-storage',
+      storage: createJSONStorage(() => localStorage)
+    }
+  )
+);

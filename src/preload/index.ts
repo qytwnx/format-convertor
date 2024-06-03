@@ -1,4 +1,4 @@
-import { contextBridge, ipcRenderer } from 'electron';
+import { IpcRendererEvent, contextBridge, ipcRenderer } from 'electron';
 import { electronAPI } from '@electron-toolkit/preload';
 
 // Custom APIs for renderer
@@ -32,6 +32,19 @@ const api = {
   },
   chooseFiles: (): Promise<Array<string> | undefined> => {
     return ipcRenderer.invoke('choose:files');
+  },
+  transformImagesRun: (options: ImageTransformOptionModel): void => {
+    ipcRenderer.send('transform:images:run', options);
+  },
+  transformImagesProgress: (
+    callback: (params: ProgressModel<ImagesModel>) => void
+  ): void => {
+    ipcRenderer.on(
+      'transform:images:progress',
+      (_event: IpcRendererEvent, params: ProgressModel<ImagesModel>) => {
+        callback({ ...params });
+      }
+    );
   }
 };
 
