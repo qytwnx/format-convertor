@@ -45,6 +45,19 @@ const api = {
         callback({ ...params });
       }
     );
+  },
+  transformVideosRun: (options: VideosTransformOptionModel): void => {
+    ipcRenderer.send('transform:videos:run', options);
+  },
+  transformVideosProgress: (
+    callback: (params: ProgressModel<VideosModel>) => void
+  ): void => {
+    ipcRenderer.on(
+      'transform:videos:progress',
+      (_event: IpcRendererEvent, params: ProgressModel<VideosModel>) => {
+        callback({ ...params });
+      }
+    );
   }
 };
 

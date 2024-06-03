@@ -1,3 +1,5 @@
+type ImageFormat = 'jpg' | 'png' | 'gif' | 'webp' | 'tiff' | 'bmp';
+
 type ImagesModel = {
   uid: string;
   name: string;
@@ -8,7 +10,7 @@ type ImagesModel = {
 };
 
 type ImageTransformOptionModel = {
-  targetFormat: string;
+  targetFormat: ImageFormat;
   targetPath: string;
   sourceImages: Array<ImagesModel>;
 };

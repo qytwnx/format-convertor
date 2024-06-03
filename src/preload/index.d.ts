@@ -18,6 +18,10 @@ declare global {
       transformImagesProgress: (
         callback: (params: ProgressModel<ImagesModel>) => void
       ) => void;
+      transformVideosRun: (options: VideosTransformOptionModel) => void;
+      transformVideosProgress: (
+        callback: (params: ProgressModel<VideosModel>) => void
+      ) => void;
     };
   }
 }

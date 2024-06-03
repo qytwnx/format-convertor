@@ -113,7 +113,7 @@ const Images = () => {
     }
   };
 
-  const handleFormatChange = (value: string) => {
+  const handleFormatChange = (value: ImageFormat) => {
     setImageTransformOption({ ...imageTransformOption, targetFormat: value });
   };
 
