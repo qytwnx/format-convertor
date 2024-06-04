@@ -14,10 +14,12 @@ asarUnpack:
 win:
   executableName: format-convertor
 nsis:
+  oneClick: false
   artifactName: ${name}-${version}-setup.${ext}
   shortcutName: ${productName}
   uninstallDisplayName: ${productName}
   createDesktopShortcut: always
+  allowToChangeInstallationDirectory: true
 mac:
   entitlementsInherit: build/entitlements.mac.plist
   extendInfo:
@@ -39,7 +41,9 @@ appImage:
   artifactName: ${name}-${version}.${ext}
 npmRebuild: false
 publish:
-  provider: generic
-  url: https://example.com/auto-updates
+  owner: qytwnx
+  provider: github
+  repo: format-convertor
+  releaseType: release
 electronDownload:
   mirror: https://npmmirror.com/mirrors/electron/
