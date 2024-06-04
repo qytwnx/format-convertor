@@ -12,8 +12,8 @@ export const MainWindowOptions: BrowserWindowConstructorOptions & {
   show: false,
   frame: false,
   autoHideMenuBar: true,
-  ...(process.platform === 'linux' ? { icon } : {}),
-  //   icon,
+  // ...(process.platform === 'linux' ? { icon } : {}),
+  icon,
   webPreferences: {
     preload: join(__dirname, '../preload/index.js'),
     sandbox: false

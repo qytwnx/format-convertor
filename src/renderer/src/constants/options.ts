@@ -1,4 +1,4 @@
-export const ImagesFormatOptions: Array<OptionsModel<ImageFormat>> = [
+export const ImagesFormatOptions: Array<OptionsModel<ImagesFormat>> = [
   { label: 'JPG', value: 'jpg' },
   { label: 'PNG', value: 'png' },
   { label: 'GIF', value: 'gif' },
@@ -24,9 +24,14 @@ export const VideosResolutionOptions: Array<OptionsModel<VideosResolution>> = [
 ];
 
 export const VideosFrameRateOptions: Array<OptionsModel<VideosFrameRate>> = [
-  { label: '144', value: 144 },
-  { label: '120', value: 120 },
+  // { label: '144', value: 144 },
+  // { label: '120', value: 120 },
   { label: '60', value: 60 },
   { label: '30', value: 30 },
   { label: '15', value: 15 }
+];
+
+export const AudiosFormatOptions: Array<OptionsModel<AudiosFormat>> = [
+  { label: 'MP3', value: 'mp3' },
+  { label: 'WAV', value: 'wav' }
 ];

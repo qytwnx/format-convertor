@@ -6,15 +6,15 @@ import ffmpeg from 'fluent-ffmpeg';
 import { existsSync } from 'node:fs';
 import path from 'node:path';
 
-export default class ImagesFfmpeg {
+export default class AudiosFfmpeg {
   constructor(
     private running: boolean = false,
     private ffmpeg?: ffmpeg.FfmpegCommand,
     private window?: BrowserWindow,
-    private options?: ImagesTransformOptionModel
+    private options?: AudiosTransformOptionModel
   ) {}
 
-  init(window: BrowserWindow, options: ImagesTransformOptionModel) {
+  init(window: BrowserWindow, options: AudiosTransformOptionModel) {
     this.running = false;
     this.ffmpeg = ffmpeg();
     this.window = window;
@@ -28,47 +28,47 @@ export default class ImagesFfmpeg {
     return this;
   }
 
-  private validate(file: ImagesModel) {
+  private validate(file: AudiosModel) {
     if (!existsSync(this.options!.targetPath)) {
-      this.window!.webContents.send('transform:images:progress', {
+      this.window!.webContents.send('transform:audios:progress', {
         file: file,
         progressStatus: ProgressStatusEnum.DIREDCTORY_CHECK,
         data: false,
         message: '目标路径校验：目标路径不存在'
-      } as ProgressModel<ImagesModel>);
+      } as ProgressModel<AudiosModel>);
       return false;
     } else {
-      this.window!.webContents.send('transform:images:progress', {
+      this.window!.webContents.send('transform:audios:progress', {
         file: file,
         progressStatus: ProgressStatusEnum.DIREDCTORY_CHECK,
         data: true,
         message: '目标路径校验：目标路径已存在'
-      } as ProgressModel<ImagesModel>);
+      } as ProgressModel<AudiosModel>);
     }
     if (existsSync(this.getSaveFilePath(file))) {
-      this.window!.webContents.send('transform:images:progress', {
+      this.window!.webContents.send('transform:audios:progress', {
         file: file,
         progressStatus: ProgressStatusEnum.FILE_CHECK,
         data: false,
         message: '目标文件校验：目标文件已存在'
-      } as ProgressModel<ImagesModel>);
+      } as ProgressModel<AudiosModel>);
       return false;
     } else {
-      this.window!.webContents.send('transform:images:progress', {
+      this.window!.webContents.send('transform:audios:progress', {
         file: file,
         progressStatus: ProgressStatusEnum.FILE_CHECK,
         data: true,
         message: '目标文件校验：目标文件不存在'
-      } as ProgressModel<ImagesModel>);
+      } as ProgressModel<AudiosModel>);
     }
     return true;
   }
 
-  private getSaveFilePath(file: ImagesModel) {
+  private getSaveFilePath(file: AudiosModel) {
     const info = path.parse(file.name);
     return path.join(
       this.options!.targetPath,
-      `${info.name}.${this.options!.targetFormat || 'png'}`
+      `${info.name}.${this.options!.targetFormat || 'mp3'}`
     );
   }
 
@@ -76,7 +76,7 @@ export default class ImagesFfmpeg {
     if (
       this.options?.targetFormat === undefined ||
       this.options?.targetPath === undefined ||
-      this.options?.sourceImages.length === 0
+      this.options?.sourceAudios.length === 0
     ) {
       return;
     }
@@ -85,45 +85,45 @@ export default class ImagesFfmpeg {
   }
 
   private runItem() {
-    const image = this.options!.sourceImages.shift();
-    if (image === undefined) {
+    const audio = this.options!.sourceAudios.shift();
+    if (audio === undefined) {
       this.running = false;
       return;
     }
-    if (!this.validate(image)) {
+    if (!this.validate(audio)) {
       this.runItem();
       return;
     }
-    this.ffmpeg!.input(image.path)
+    this.ffmpeg!.input(audio.path)
       .on('progress', (progress) => {
         console.log('progress', progress);
-        this.window!.webContents.send('transform:images:progress', {
-          file: image,
+        this.window!.webContents.send('transform:audios:progress', {
+          file: audio,
           progressStatus: ProgressStatusEnum.IN_PROGRESS,
           data: progress.percent,
           message: '转换中'
-        } as ProgressModel<ImagesModel>);
+        } as ProgressModel<AudiosModel>);
       })
       .on('error', (error) => {
         console.log('error', error);
-        this.window!.webContents.send('transform:images:progress', {
-          file: image,
+        this.window!.webContents.send('transform:audios:progress', {
+          file: audio,
           progressStatus: ProgressStatusEnum.ERROR,
           data: 100,
           message: '转换失败'
-        } as ProgressModel<ImagesModel>);
+        } as ProgressModel<AudiosModel>);
       })
       .on('end', () => {
         console.log('end');
-        this.window!.webContents.send('transform:images:progress', {
-          file: image,
+        this.window!.webContents.send('transform:audios:progress', {
+          file: audio,
           progressStatus: ProgressStatusEnum.END,
           data: 100,
           message: '转换成功'
-        } as ProgressModel<ImagesModel>);
+        } as ProgressModel<AudiosModel>);
         this.runItem();
       })
-      .save(this.getSaveFilePath(image))
+      .save(this.getSaveFilePath(audio))
       .run();
   }
 

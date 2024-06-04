@@ -33,13 +33,13 @@ const handleGetBase64 = (file: FileType): Promise<string> =>
 const Images = () => {
   const [messageApi, contextHolder] = message.useMessage();
   const [loading, setLoading] = useState<boolean>(false);
-  const [imageTransformOption, setImageTransformOption] =
+  const [imagesTransformOption, setImagesTransformOption] =
     useTransformImagesStore((state) => [
       state.imagesOptions,
       state.setImagesOptions
     ]);
   const [previewOpen, setPreviewOpen] = useState<boolean>(false);
-  const [previewImage, setPreviewImage] = useState<string>('');
+  const [previewImages, setPreviewImages] = useState<string>('');
   const [currentProgressInfo, setCurrentProgressInfo] =
     useState<ProgressModel<ImagesModel>>();
 
@@ -47,8 +47,8 @@ const Images = () => {
     const res = await window.api.chooseDirectory();
     if (res !== undefined && res instanceof Array && res.length > 0) {
       const targetPath = String(res[0]);
-      setImageTransformOption({
-        ...imageTransformOption,
+      setImagesTransformOption({
+        ...imagesTransformOption,
         targetPath: targetPath
       });
     }
@@ -57,10 +57,9 @@ const Images = () => {
   const handleTrnasformImagesProgress = (
     params: ProgressModel<ImagesModel>
   ) => {
-    console.log('progress: ', imageTransformOption);
     setCurrentProgressInfo(params);
     const { file, progressStatus, data } = params;
-    const sourceImages = imageTransformOption.sourceImages;
+    const sourceImages = imagesTransformOption.sourceImages;
     const imageIndex = sourceImages.findIndex((item) => item.uid == file.uid);
     if (imageIndex === -1) {
       return;
@@ -69,14 +68,15 @@ const Images = () => {
       case ProgressStatusEnum.IN_PROGRESS:
         if (typeof data === 'number') {
           sourceImages[imageIndex].progress = data;
-          setImageTransformOption(imageTransformOption);
+          sourceImages[imageIndex].status = TransformStatusEnum.IN_PROGRESS;
+          setImagesTransformOption({ ...imagesTransformOption, sourceImages });
         }
         break;
       case ProgressStatusEnum.END:
         sourceImages[imageIndex].progress = 100;
         sourceImages[imageIndex].status = TransformStatusEnum.FINISH;
-        setImageTransformOption({
-          ...imageTransformOption,
+        setImagesTransformOption({
+          ...imagesTransformOption,
           sourceImages: sourceImages
         });
         break;
@@ -84,8 +84,8 @@ const Images = () => {
         if (!data) {
           sourceImages[imageIndex].status = TransformStatusEnum.ERROR;
           sourceImages[imageIndex].progress = 100;
-          setImageTransformOption({
-            ...imageTransformOption,
+          setImagesTransformOption({
+            ...imagesTransformOption,
             sourceImages: sourceImages
           });
         }
@@ -94,8 +94,8 @@ const Images = () => {
         if (!data) {
           sourceImages[imageIndex].status = TransformStatusEnum.ERROR;
           sourceImages[imageIndex].progress = 100;
-          setImageTransformOption({
-            ...imageTransformOption,
+          setImagesTransformOption({
+            ...imagesTransformOption,
             sourceImages: sourceImages
           });
         }
@@ -104,8 +104,8 @@ const Images = () => {
         if (!data) {
           sourceImages[imageIndex].status = TransformStatusEnum.ERROR;
           sourceImages[imageIndex].progress = 100;
-          setImageTransformOption({
-            ...imageTransformOption,
+          setImagesTransformOption({
+            ...imagesTransformOption,
             sourceImages: sourceImages
           });
         }
@@ -113,25 +113,24 @@ const Images = () => {
     }
   };
 
-  const handleFormatChange = (value: ImageFormat) => {
-    setImageTransformOption({ ...imageTransformOption, targetFormat: value });
+  const handleFormatChange = (value: ImagesFormat) => {
+    setImagesTransformOption({ ...imagesTransformOption, targetFormat: value });
   };
 
   const handleTransformImagesRun = () => {
-    console.log('run: ', imageTransformOption);
-    if (!imageTransformOption.targetPath) {
+    if (!imagesTransformOption.targetPath) {
       messageApi.error('请选择存储位置');
       return;
     }
-    if (!imageTransformOption.targetFormat) {
+    if (!imagesTransformOption.targetFormat) {
       messageApi.error('请选择存储格式');
       return;
     }
-    if (imageTransformOption.sourceImages.length === 0) {
+    if (imagesTransformOption.sourceImages.length === 0) {
       messageApi.error('请选择图片');
       return;
     }
-    const sourceImages = imageTransformOption.sourceImages.filter(
+    const sourceImages = imagesTransformOption.sourceImages.filter(
       (filter) => filter.status === TransformStatusEnum.READAY
     );
     if (sourceImages.length === 0) {
@@ -139,14 +138,14 @@ const Images = () => {
       return;
     }
     window.api.transformImagesRun({
-      ...imageTransformOption,
+      ...imagesTransformOption,
       sourceImages: sourceImages
     });
   };
 
   useEffect(() => {
     window.api.transformImagesProgress(handleTrnasformImagesProgress);
-  }, [imageTransformOption]);
+  }, [imagesTransformOption]);
 
   return (
     <>
@@ -159,7 +158,7 @@ const Images = () => {
             </div>
             <div className={styles['images-container-setting-item-content']}>
               <Input
-                value={imageTransformOption?.targetPath}
+                value={imagesTransformOption?.targetPath}
                 readOnly
                 placeholder="请选择位置"
               />
@@ -178,7 +177,7 @@ const Images = () => {
             </div>
             <div className={styles['images-container-setting-item-content']}>
               <Select
-                value={imageTransformOption?.targetFormat}
+                value={imagesTransformOption?.targetFormat}
                 placeholder="请选择存储格式"
                 listHeight={130}
                 placement="bottomLeft"
@@ -192,12 +191,9 @@ const Images = () => {
         <div className={styles['images-container-transform']}>
           <Upload
             action="#"
-            // multiple
             showUploadList={false}
             accept="image/*"
-            // maxCount={10}
             onChange={async (info) => {
-              console.log('info: ', info);
               if (info.file.status === 'uploading') {
                 setLoading(true);
               }
@@ -209,10 +205,9 @@ const Images = () => {
                 // eslint-disable-next-line @typescript-eslint/ban-ts-comment
                 // @ts-ignore
                 const { name, path } = originFileObj;
-                const sourceImages = imageTransformOption.sourceImages;
-                console.log(imageTransformOption);
-                setImageTransformOption({
-                  ...imageTransformOption,
+                const sourceImages = imagesTransformOption.sourceImages;
+                setImagesTransformOption({
+                  ...imagesTransformOption,
                   sourceImages: [
                     ...sourceImages,
                     {
@@ -246,9 +241,8 @@ const Images = () => {
             <Button
               danger
               onClick={() =>
-                setImageTransformOption({
-                  targetFormat: imageTransformOption.targetFormat,
-                  targetPath: imageTransformOption.targetPath,
+                setImagesTransformOption({
+                  ...imagesTransformOption,
                   sourceImages: []
                 })
               }
@@ -258,7 +252,7 @@ const Images = () => {
           </div>
           <Skeleton active className="px-6 py-4" loading={loading}>
             <div className={styles['images-container-transform-list']}>
-              {imageTransformOption.sourceImages.map((item, index) => (
+              {imagesTransformOption.sourceImages.map((item, index) => (
                 <div
                   key={index}
                   style={
@@ -298,7 +292,7 @@ const Images = () => {
                       }
                       onClick={() => {
                         if (item.thumbnail) {
-                          setPreviewImage(item.thumbnail);
+                          setPreviewImages(item.thumbnail);
                           setPreviewOpen(true);
                         }
                       }}
@@ -317,10 +311,9 @@ const Images = () => {
                         styles['images-container-transform-list-item-delete']
                       }
                       onClick={() => {
-                        const sourceImages = imageTransformOption.sourceImages;
-                        setImageTransformOption({
-                          targetFormat: imageTransformOption.targetFormat,
-                          targetPath: imageTransformOption.targetPath,
+                        const sourceImages = imagesTransformOption.sourceImages;
+                        setImagesTransformOption({
+                          ...imagesTransformOption,
                           sourceImages: sourceImages.filter(
                             (_, i) => i !== index
                           )
@@ -344,15 +337,15 @@ const Images = () => {
               ))}
             </div>
           </Skeleton>
-          {previewImage && (
+          {previewImages && (
             <Image
               wrapperStyle={{ display: 'none' }}
               preview={{
                 visible: previewOpen,
                 onVisibleChange: (visible) => setPreviewOpen(visible),
-                afterOpenChange: (visible) => !visible && setPreviewImage('')
+                afterOpenChange: (visible) => !visible && setPreviewImages('')
               }}
-              src={previewImage}
+              src={previewImages}
             />
           )}
         </div>

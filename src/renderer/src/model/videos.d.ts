@@ -8,7 +8,7 @@ type VideosResolution =
   | '720x480'
   | '640x480'
   | '320x240';
-type VideosFrameRate = 144 | 120 | 60 | 30 | 15;
+type VideosFrameRate = 60 | 30 | 15;
 
 type VideosModel = {
   uid: string;

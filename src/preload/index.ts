@@ -33,7 +33,7 @@ const api = {
   chooseFiles: (): Promise<Array<string> | undefined> => {
     return ipcRenderer.invoke('choose:files');
   },
-  transformImagesRun: (options: ImageTransformOptionModel): void => {
+  transformImagesRun: (options: ImagesTransformOptionModel): void => {
     ipcRenderer.send('transform:images:run', options);
   },
   transformImagesProgress: (
@@ -55,6 +55,19 @@ const api = {
     ipcRenderer.on(
       'transform:videos:progress',
       (_event: IpcRendererEvent, params: ProgressModel<VideosModel>) => {
+        callback({ ...params });
+      }
+    );
+  },
+  transformAudiosRun: (options: AudiosTransformOptionModel): void => {
+    ipcRenderer.send('transform:audios:run', options);
+  },
+  transformAudiosProgress: (
+    callback: (params: ProgressModel<AudiosModel>) => void
+  ): void => {
+    ipcRenderer.on(
+      'transform:audios:progress',
+      (_event: IpcRendererEvent, params: ProgressModel<AudiosModel>) => {
         callback({ ...params });
       }
     );

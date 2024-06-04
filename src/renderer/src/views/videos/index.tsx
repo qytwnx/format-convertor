@@ -7,7 +7,7 @@ import {
   VideosResolutionOptions
 } from '@renderer/constants/options';
 import { MdDeleteOutline } from 'react-icons/md';
-import { RiVideoAddFill } from 'react-icons/ri';
+import { AiOutlineVideoCameraAdd } from 'react-icons/ai';
 import {
   ProgressStatusEnum,
   TransformStatusEnum
@@ -40,7 +40,6 @@ const Videos = () => {
   const handleTrnasformVideosProgress = (
     params: ProgressModel<VideosModel>
   ) => {
-    console.log('progress: ', videosTransformOption);
     setCurrentProgressInfo(params);
     const { file, progressStatus, data } = params;
     const sourceVideos = videosTransformOption.sourceVideos;
@@ -116,7 +115,6 @@ const Videos = () => {
   };
 
   const handleTransformVideosRun = () => {
-    console.log('run: ', videosTransformOption);
     if (!videosTransformOption.targetPath) {
       messageApi.error('请选择存储位置');
       return;
@@ -233,7 +231,6 @@ const Videos = () => {
             showUploadList={false}
             accept="video/*"
             onChange={async (info) => {
-              console.log('info: ', info);
               if (info.file.status === 'uploading') {
                 setLoading(true);
               }
@@ -268,7 +265,7 @@ const Videos = () => {
               }
             }}
           >
-            <RiVideoAddFill
+            <AiOutlineVideoCameraAdd
               className={styles['videos-container-transform-select']}
             />
           </Upload>

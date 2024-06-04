@@ -1,4 +1,4 @@
-type ImageFormat = 'jpg' | 'png' | 'gif' | 'webp' | 'tiff' | 'bmp';
+type ImagesFormat = 'jpg' | 'png' | 'gif' | 'webp' | 'tiff' | 'bmp';
 
 type ImagesModel = {
   uid: string;
@@ -9,8 +9,8 @@ type ImagesModel = {
   status: TransformStatusEnum;
 };
 
-type ImageTransformOptionModel = {
-  targetFormat: ImageFormat;
+type ImagesTransformOptionModel = {
+  targetFormat: ImagesFormat;
   targetPath: string;
   sourceImages: Array<ImagesModel>;
 };

@@ -1,3 +1,51 @@
 .audios-container {
-  @apply w-full h-full p-2 flex flex-col items-center bg-slate-600;
+  @apply w-full h-full p-2 flex flex-row;
+  .audios-container-setting {
+    @apply w-1/3 flex flex-col gap-3 border-r px-2;
+    .audios-container-setting-item {
+      @apply flex flex-col gap-1;
+      .audios-container-setting-item-label {
+        @apply text-base;
+      }
+      .audios-container-setting-item-content {
+        @apply flex items-center;
+      }
+    }
+  }
+  .audios-container-transform {
+    @apply flex-1 px-2 flex flex-col items-center gap-3;
+    .audios-container-transform-select {
+      @apply flex-shrink-0 w-28 h-28 cursor-pointer hover:text-blue-500;
+    }
+    .audios-container-transform-operate {
+      @apply flex-shrink-0 flex gap-3;
+    }
+    .audios-container-transform-list {
+      @apply w-full flex flex-col gap-3 overflow-x-hidden overflow-y-auto;
+      .audios-container-transform-list-item {
+        @apply relative border px-4 py-2 rounded-md;
+        .audios-container-transform-list-item-progress-bg {
+          @apply absolute top-0 bottom-0 left-0 right-0 z-0 rounded-md;
+          width: var(--process);
+          background-color: var(--bgColor);
+          opacity: 0.5;
+        }
+        .audios-container-transform-list-item-progress {
+          @apply relative flex gap-2 font-bold flex-row justify-between items-center;
+          .audios-container-transform-list-item-progress-number {
+            @apply bg-gray-700 text-white rounded-full size-6 flex justify-center items-center flex-shrink-0;
+          }
+          .audios-container-transform-list-item-name {
+            @apply flex-1;
+          }
+          .audios-container-transform-list-item-delete {
+            @apply flex-shrink-0 size-6 cursor-pointer hover:text-red-600;
+          }
+        }
+        .audios-container-transform-list-item-infomation {
+          @apply relative w-full border-t mt-2 pt-2 text-sm;
+        }
+      }
+    }
+  }
 }

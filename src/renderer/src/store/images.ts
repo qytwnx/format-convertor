@@ -2,10 +2,10 @@ import { create } from 'zustand';
 import { createJSONStorage, persist } from 'zustand/middleware';
 
 interface TransformImagesStateProps {
-  imagesOptions: ImageTransformOptionModel;
+  imagesOptions: ImagesTransformOptionModel;
   setImagesOptions: (
-    data: ImageTransformOptionModel
-  ) => ImageTransformOptionModel;
+    data: ImagesTransformOptionModel
+  ) => ImagesTransformOptionModel;
 }
 
 export default create<TransformImagesStateProps>()(
