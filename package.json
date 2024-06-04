@@ -1,10 +1,10 @@
 {
   "name": "format-convertor",
-  "version": "1.0.0",
-  "description": "An Electron application with React and TypeScript",
+  "version": "0.0.1",
+  "description": "Format conversion tool based on electron and ffmpeg",
   "main": "./out/main/index.js",
-  "author": "example.com",
-  "homepage": "https://electron-vite.org",
+  "author": "QYT-WNX",
+  "homepage": "https://github.com/qytwnx",
   "scripts": {
     "format": "prettier --write .",
     "lint": "eslint . --ext .js,.jsx,.cjs,.mjs,.ts,.tsx,.cts,.mts --fix",

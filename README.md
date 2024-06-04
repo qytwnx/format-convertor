@@ -1,34 +1,38 @@
 # format-convertor
 
-An Electron application with React and TypeScript
+> 基于Electron + FFmpeg的格式转换工具
+>
+> - 图片转换
+> - 视频转换
+> - 音频转换
 
-## Recommended IDE Setup
+---
 
-- [VSCode](https://code.visualstudio.com/) + [ESLint](https://marketplace.visualstudio.com/items?itemName=dbaeumer.vscode-eslint) + [Prettier](https://marketplace.visualstudio.com/items?itemName=esbenp.prettier-vscode)
+## 图片转换
 
-## Project Setup
+> - JPG
+> - PNG
+> - GIF
+> - WEBP
+> - TIFF
+> - BMP
 
-### Install
+![ImagesConvertor](./doc/screenshots/images-convertor.png)
 
-```bash
-$ yarn
-```
+---
 
-### Development
+## 视频转换
 
-```bash
-$ yarn dev
-```
+> - MOV
+> - MP4
 
-### Build
+![VideosConvertor](./doc/screenshots/videos-convertor.png)
 
-```bash
-# For windows
-$ yarn build:win
+---
 
-# For macOS
-$ yarn build:mac
+## 音频转换
 
-# For Linux
-$ yarn build:linux
-```
+> - MP3
+> - WAV
+
+![AudiosConvertor](./doc/screenshots/audios-convertor.png)
